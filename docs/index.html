@@ -552,7 +552,7 @@ main section{scroll-margin-top:64px}
       <p>Hindu Festivals Atlas, three folios: I Deepavali; II Navaratri · Durga Puja · Dussehra; III Pongal · Makar Sankranti. Every factual statement carries a numbered marker that opens its source; unnumbered sentences that draw connections are the atlas's own synthesis and are marked <span class="kt modern">synthesis</span> where they matter. Indian institutions and authors were consulted first. Sources were accessed 22–23 October 2026.</p>
       <p>Plates are drawn in code as graphite studies and are placeholders for commissioned or generated illustrations; none of them is historical evidence.</p>
       <p class="eyebrow" style="margin-top:18px">How it was made</p>
-      <p>Created by Mohan Boggara and built with AI assistance (Claude and ChatGPT) under his direction: research gathered from the cited sources, text written for the atlas, and plates drawn in code, with generation prompts kept for later illustrations.</p>
+      <p>Created by Mohan Boggara and built with AI assistance (Claude and ChatGPT) under his direction: research gathered from the cited sources, text written for the atlas, and plates drawn in code as placeholders for later illustrations.</p>
       <p class="eyebrow" style="margin-top:18px">Licence</p>
       <p>Code: <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT</a>. Content (text written for the atlas, compiled data and the code-drawn plates): <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>, © 2026 Mohan Boggara. Quotations and the source notes in the evidence drawer remain under their sources’ own terms. State boundaries: INDIAN-SHAPEFILES (MIT), simplified, not to scale. Fonts: Google Fonts, SIL Open Font License.</p>
     </div>
@@ -1280,26 +1280,27 @@ function fig(key,svg,cap,kind,cls=''){
   return `<figure class="plate ${cls}" data-plate="${key}"><div class="plate-frame"><span class="plate-tag">${PLATE_META[key]?PLATE_META[key].no:''}</span><button class="plate-zoom" type="button" data-zoom="${key}" aria-label="Enlarge plate">Enlarge</button>${art?`<img src="${art}" alt="${esc(cap)}">`:svg}</div><figcaption><span>${cap}</span><span class="kind">${kind}</span></figcaption></figure>`;
 }
 /* Plate register: label + generation prompt for each illustration slot */
-const BASE_PROMPT='Hand-drawn editorial pencil illustration on warm ivory handmade paper, fine graphite linework, subtle cross-hatching, restrained muted watercolor accents, elegant Indian cultural-atlas aesthetic, historically and regionally sensitive details, museum-catalog quality, generous negative space, natural human proportions, no photorealism, no modern typography inside the image, no decorative frame.';
+const SHOW_PROMPTS=false; // the public build sets this to false and strips every prompt
+const BASE_PROMPT='';
 const PLATE_META={
-  hero:{no:'Plate I',title:'An evening threshold',kind:'Illustrative reconstruction',scene:'Scene: evening doorway prepared for Deepavali, several hand-made clay diyas on the steps, a geometric rangoli at the threshold, a mango-leaf toran over the door, a star-shaped paper lantern, understated South Asian domestic architecture with hints of several regions, family figures preparing lamps inside, moonless starry sky, intimate observational composition rather than staged portrait.'},
-  rama:{no:'Plate II',title:'Return to Ayodhya',kind:'Traditional narrative illustration',scene:'Scene: four-panel sequence — a forest path; three small travelling figures seen from behind; a distant riverside city of temple spires; rows of oil lamps on ghat steps at dusk. Figures small and respectful, no faces in detail.'},
-  krishna:{no:'Plate III',title:'Krishna and Narakasura',kind:'Symbolic illustration',scene:'Scene: four-panel symbolic sequence — a peacock feather against darkness; a spoked discus above a broken storm cloud (no violence shown); sunrise over a horizon with a brass oil vessel for the dawn bath; clay lamps beside a white rice-flour kolam.'},
-  lakshmi:{no:'Plate IV',title:'Lakshmi and prosperity',kind:'Symbolic illustration',scene:'Scene: four-panel symbolic sequence — a lotus on still water; lamps at a lit doorway; coins and a heap of grain with a small owl; a low puja table with two framed images seen from a distance.'},
-  govardhan:{no:'Plate V',title:'Govardhan and Annakut',kind:'Symbolic illustration',scene:'Scene: four-panel sequence — rain over a low hill; the hill raised like a canopy sheltering cattle; a cow with a bell; a mountain of cooked food on leaf plates with small lamps.'},
-  bali:{no:'Plate VI',title:'King Bali’s return',kind:'Symbolic illustration',scene:'Scene: four-panel symbolic sequence — a royal parasol; three giant footprints striding across a curved earth; a small triangular clay image at a threshold with flowers; a single clay lamp over a rangoli.'},
-  kali:{no:'Plate VII',title:'Kali Puja night',kind:'Symbolic illustration',scene:'Scene: four-panel sequence — a moonless midnight sky; a Bengal curved-roof terracotta temple; a row of earthen lamps along a rooftop parapet; a shrine door with a lamp and bell.'},
-  days:{no:'Plate VIII',title:'The five days',kind:'Symbolic illustration',scene:'Scene: five small studies in a row — a brass pot with coins; sunrise over an oil vessel; lamps around a lotus; a hill with a cow; an aarti plate with a lamp and vermilion bowl.'},
-  lunar:{no:'Plate IX',title:'The lunar month',kind:'Diagram',scene:'Scene: hand-drawn circular diagram of thirty lunar days with moon phases around the rim, bright and dark fortnights shaded, the new-moon night marked with a single lamp.'},
-  rangoli:{no:'Plate X',title:'Kolam on a dot grid',kind:'Diagram',scene:'Scene: overhead view of a hand drawing a white rice-flour kolam over a grid of dots at a washed doorstep, early morning light.'},
-  diya:{no:'Plate XI',title:'Anatomy of a diya',kind:'Diagram',scene:'Scene: exploded technical drawing of a clay oil lamp — flame, twisted cotton wick, pool of oil, shallow terracotta bowl with a pinched spout — with fine leader lines and no text.'},
-  altar:{no:'Plate XII',title:'A Lakshmi Puja table',kind:'Illustrative reconstruction',scene:'Scene: a low puja table draped in red cloth with a brass kalasha topped by mango leaves and a coconut, a lit clay lamp, a small plate of coins, a marigold garland, sweets, a red-bound account book, and two framed devotional images seen from the side.'},
-  map:{no:'Plate XIII',title:'Regional atlas',kind:'Map (administrative boundaries)',scene:'Scene: hand-drawn map of India on handmade paper with official state boundaries, light watercolor washes for highlighted regions, small marginal sketches of regional customs.'},
-  symbols:{no:'Plate XIV',title:'Symbol cabinet',kind:'Symbolic illustration',scene:'Scene: museum specimen drawer with ten objects drawn as catalogue studies — clay lamp, rangoli, lotus, kalasha, marigold string, a cone firework, sweets, a mango-leaf door garland, a paper star lantern, a red account book.'},
-  food:{no:'Plate XV',title:'A festival plate',kind:'Illustrative reconstruction',scene:'Scene: botanical-plate style study of festival foods on a round brass thali — laddus, a jalebi spiral, murukku, burfi diamonds, adhirasam, betel leaves and areca nuts.'},
-  graph:{no:'Plate XVI',title:'Relationship map',kind:'Diagram',scene:'Scene: hand-drawn network diagram radiating from a central lamp, with small pencil vignettes at each node.'},
-  world:{no:'Plate XVII',title:'Lights abroad',kind:'Illustrative reconstruction',scene:'Scene: a shophouse street hung with arches of festival lights at dusk, passers-by in a mix of everyday and festive dress.'},
-  timeline:{no:'Plate XVIII',title:'Through time (not yet drawn)',kind:'Slot',scene:'Scene: horizontal frieze of small vignettes — a palm-leaf manuscript, a stone inscription, a traveller writing by lamplight, a Mughal-period illumination, a colonial print, a modern city skyline at Diwali.'}
+  hero:{no:'Plate I',title:'An evening threshold',kind:'Illustrative reconstruction',scene:''},
+  rama:{no:'Plate II',title:'Return to Ayodhya',kind:'Traditional narrative illustration',scene:''},
+  krishna:{no:'Plate III',title:'Krishna and Narakasura',kind:'Symbolic illustration',scene:''},
+  lakshmi:{no:'Plate IV',title:'Lakshmi and prosperity',kind:'Symbolic illustration',scene:''},
+  govardhan:{no:'Plate V',title:'Govardhan and Annakut',kind:'Symbolic illustration',scene:''},
+  bali:{no:'Plate VI',title:'King Bali’s return',kind:'Symbolic illustration',scene:''},
+  kali:{no:'Plate VII',title:'Kali Puja night',kind:'Symbolic illustration',scene:''},
+  days:{no:'Plate VIII',title:'The five days',kind:'Symbolic illustration',scene:''},
+  lunar:{no:'Plate IX',title:'The lunar month',kind:'Diagram',scene:''},
+  rangoli:{no:'Plate X',title:'Kolam on a dot grid',kind:'Diagram',scene:''},
+  diya:{no:'Plate XI',title:'Anatomy of a diya',kind:'Diagram',scene:''},
+  altar:{no:'Plate XII',title:'A Lakshmi Puja table',kind:'Illustrative reconstruction',scene:''},
+  map:{no:'Plate XIII',title:'Regional atlas',kind:'Map (administrative boundaries)',scene:''},
+  symbols:{no:'Plate XIV',title:'Symbol cabinet',kind:'Symbolic illustration',scene:''},
+  food:{no:'Plate XV',title:'A festival plate',kind:'Illustrative reconstruction',scene:''},
+  graph:{no:'Plate XVI',title:'Relationship map',kind:'Diagram',scene:''},
+  world:{no:'Plate XVII',title:'Lights abroad',kind:'Illustrative reconstruction',scene:''},
+  timeline:{no:'Plate XVIII',title:'Through time (not yet drawn)',kind:'Slot',scene:''}
 };
 
 /* ============ POPOVER / DRAWER / SIDE / LIGHTBOX ============ */
@@ -1373,7 +1374,7 @@ function sidePanel(eyebrow,html){$('#sideEyebrow').textContent=eyebrow;$('#sideB
 
 document.addEventListener('click',e=>{const z=e.target.closest('[data-zoom]');if(!z)return;const k=z.dataset.zoom;const fig=z.closest('figure');const M=PLATE_META[k]||{};
   $('#lbIn').innerHTML=`<div class="lb-top"><div><p class="eyebrow" style="margin:0">${M.no||''} · ${M.kind||''}</p><h3 style="font-size:1.6rem">${M.title||''}</h3></div><button class="x" type="button" id="lbClose" aria-label="Close">×</button></div><div class="plate-frame">${fig.querySelector('.plate-frame').innerHTML.replace(/<button[^>]*>Enlarge<\/button>/,'')}</div>
-  <p class="muted" style="margin-top:10px;font-size:.88rem">${fig.querySelector('figcaption span').innerHTML}</p><p class="mono" style="color:var(--ink-3);max-width:90ch">Generation prompt for a replacement illustration: ${BASE_PROMPT} ${M.scene||''}</p>`;
+  <p class="muted" style="margin-top:10px;font-size:.88rem">${fig.querySelector('figcaption span').innerHTML}</p>${SHOW_PROMPTS?`<p class="mono" style="color:var(--ink-3);max-width:90ch">Generation prompt for a replacement illustration: ${BASE_PROMPT} ${M.scene||''}</p>`:''}`;
   $('#lb').classList.add('on');$('#lbClose').focus();$('#lbClose').onclick=()=>$('#lb').classList.remove('on')});
 
 /* ============ SECTIONS ============ */
@@ -1980,8 +1981,8 @@ ${fig('world',PLATES.world(),'Plate XVII. A shophouse street under arches of lig
 
 /* ---------- XIII. PLATES ---------- */
 CUR_SEC='XIII · Plates';
-$('#plates').innerHTML=sectionHead('XIII','Plates','Plate register','','Every illustration in this folio is a placeholder drawn in code. Each slot carries its label and a generation prompt, so it can be replaced with commissioned or generated art without changing the page. Labels say what kind of image it is; none is historical evidence.')+`
-<div class="plates">${Object.entries(PLATE_META).filter(([k,m])=>!m.fo).map(([k,m])=>`<div><span class="pn">${m.no}</span><b>${m.title}</b><span class="kind mono" style="color:var(--mitti)">${m.kind}</span><code>${BASE_PROMPT} ${m.scene}</code><button class="copy" type="button" data-copy="${k}">Copy prompt</button></div>`).join('')}</div>`;
+$('#plates').innerHTML=sectionHead('XIII','Plates','Plate register','',SHOW_PROMPTS?'Every illustration in this folio is a placeholder drawn in code. Each slot carries its label and a generation prompt, so it can be replaced with commissioned or generated art without changing the page. Labels say what kind of image it is; none is historical evidence.':'Every illustration in this folio is a placeholder drawn in code, to be replaced by finished illustrations later. Labels say what kind of image it is; none is historical evidence.')+`
+<div class="plates">${Object.entries(PLATE_META).filter(([k,m])=>!m.fo).map(([k,m])=>`<div><span class="pn">${m.no}</span><b>${m.title}</b><span class="kind mono" style="color:var(--mitti)">${m.kind}</span>${SHOW_PROMPTS?`<code>${BASE_PROMPT} ${m.scene}</code><button class="copy" type="button" data-copy="${k}">Copy prompt</button>`:''}</div>`).join('')}</div>`;
 $('#plates').addEventListener('click',async e=>{const b=e.target.closest('[data-copy]');if(!b)return;const m=PLATE_META[b.dataset.copy];const txt=BASE_PROMPT+' '+m.scene;try{await navigator.clipboard.writeText(txt);b.textContent='Copied'}catch(err){const r=document.createRange();r.selectNodeContents(b.previousElementSibling);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected — press copy'}setTimeout(()=>b.textContent='Copy prompt',2200)});
 
 
@@ -2070,7 +2071,7 @@ function graphKit(p,cfg){const {GN,GE,center,label}=cfg;const H={};GN.forEach(n=
 function journeyHTML(STEPS){return `<div class="journey">${STEPS.map(s=>`<div class="jstep"><div class="jart">${s.art()}</div><div><h3>${s.t}</h3><dl class="jgrid">${s.rows().map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl></div></div>`).join('')}</div>`}
 
 /* ---- plate register for one folio ---- */
-function platesHTML(fo){return `<div class="plates">${Object.entries(PLATE_META).filter(([k,m])=>m.fo===fo).map(([k,m])=>`<div><span class="pn">${m.no}</span><b>${m.title}</b><span class="kind mono" style="color:var(--mitti)">${m.kind}</span><code>${BASE_PROMPT} ${m.scene}</code><button class="copy" type="button" data-copy="${k}">Copy prompt</button></div>`).join('')}</div>`}
+function platesHTML(fo){return `<div class="plates">${Object.entries(PLATE_META).filter(([k,m])=>m.fo===fo).map(([k,m])=>`<div><span class="pn">${m.no}</span><b>${m.title}</b><span class="kind mono" style="color:var(--mitti)">${m.kind}</span>${SHOW_PROMPTS?`<code>${BASE_PROMPT} ${m.scene}</code><button class="copy" type="button" data-copy="${k}">Copy prompt</button>`:''}</div>`).join('')}</div>`}
 function bindPlates(sec){sec.addEventListener('click',async e=>{const b=e.target.closest('[data-copy]');if(!b)return;const m=PLATE_META[b.dataset.copy];const txt=BASE_PROMPT+' '+m.scene;try{await navigator.clipboard.writeText(txt);b.textContent='Copied'}catch(err){const r=document.createRange();r.selectNodeContents(b.previousElementSibling);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected — press copy'}setTimeout(()=>b.textContent='Copy prompt',2200)})}
 
 /* ---- section scaffold ---- */
@@ -2083,21 +2084,21 @@ const SECS_N=[['what','Overview'],['stories','Stories'],['days','Days'],['calend
 folioSections('navaratri',NP,SECS_N);
 GTYPES.folio={l:'Other folios',c:'var(--sindoor)'};
 /* plate register */
-[['n_hero','Plate II.1','A night of garba','Illustrative reconstruction','Scene: Navaratri night under a waxing half moon, a ring of dancers moving counter-clockwise around a perforated earthen garbo pot lit from inside, a bamboo pandal frame hung with marigold strings behind, a stepped golu doll display at the left edge and a dhak drum with feather plume and a smoking clay dhunuchi at the right, rangoli border in the foreground; figures small, faces not detailed.'],
- ['n_durga','Plate II.2','Durga and Mahishasura','Symbolic illustration','Scene: four-panel symbolic sequence — rays from many lights gathering into one flame; a trident above a pair of broken buffalo horns; nine small clay lamps beneath a waxing moon; a bundle of palm-leaf manuscript leaves tied with cord. No depiction of the goddess’s face.'],
- ['n_uma','Plate II.3','Uma comes home','Symbolic illustration','Scene: four-panel sequence — snow peaks of the Himalaya; a country boat on a river coming down to the plains; a Bengal village home with an alpana at the door and two lamps; ripples closing over a clay image’s straw frame in a river.'],
- ['n_rama','Plate II.4','Ramlila and Ravan Dahan','Traditional narrative illustration','Scene: four-panel sequence — a bow and arrow; an open-air Ramlila stage lit only by oil lamps with a seated audience; a towering ten-headed bamboo-and-paper effigy on its frame; the effigy burning at dusk.'],
- ['n_mysuru','Plate II.5','Mysuru Dasara','Illustrative reconstruction','Scene: four-panel sequence — Chamundi hill with its temple tower; a palace facade outlined in thousands of bulbs; a caparisoned elephant carrying a golden howdah; a torchlight parade at night.'],
- ['n_shami','Plate II.6','Shami and apta','Symbolic illustration','Scene: four-panel symbolic sequence — a shami tree with a cloth bundle of weapons tied high in its branches; gold coins falling through an apta tree; two hands exchanging a two-lobed apta leaf; a figure walking past a village boundary stone at evening.'],
- ['n_bathu','Plate II.7','Bathukamma','Illustrative reconstruction','Scene: four-panel sequence — seasonal flowers laid out by colour; a seven-tiered conical flower stack; women in saris circling the stack; the stack floating on a village pond at dusk.'],
- ['n_ring','Plate II.8','The month from Mahalaya to Diwali','Diagram','Scene: hand-drawn circular diagram of one lunar month from new moon to new moon, the waxing half shaded with nine lamps for the nine nights, a tenth mark for Vijayadashami, a full moon for Kojagara, and a single lamp at the closing new moon for Diwali.'],
- ['n_kumor','Plate II.9','From straw to eyes','Diagram','Scene: five-stage technical study of a clay image at Kumortuli, Kolkata — bamboo-and-straw frame (kathamo), rough coat of sticky clay, smooth finishing clay, paint, and the eyes drawn last — on a workshop floor, no faces in detail.'],
- ['n_golu','Plate II.10','A golu','Illustrative reconstruction','Scene: a seven-step golu in a Tamil home — rows of painted clay dolls on cloth-covered steps, a kalasha with coconut, a pair of wooden marapachi dolls at the top, a brass lamp at the foot.'],
- ['n_map','Plate II.11','Regional atlas','Map (administrative boundaries)','Scene: hand-drawn map of India with official state boundaries, light washes for highlighted states, marginal sketches of a garbo, a dhak, an elephant and a flower stack.'],
- ['n_cab','Plate II.12','Symbol cabinet','Symbolic illustration','Scene: museum specimen drawer with ten objects drawn as catalogue studies — garbo pot, dhak drum, dhunuchi, wooden marapachi dolls, apta leaf, shami branch, flower stack, effigy, vermilion box, kalasha.'],
- ['n_food','Plate II.13','Bhog and the fast','Illustrative reconstruction','Scene: botanical-plate style study — a banana leaf with khichuri, labra, a brinjal fritter and payesh; beside it a brass plate of fasting foods: buckwheat, water-chestnut flour, sago pearls and rock salt.'],
- ['n_graph','Plate II.14','Relationship map','Diagram','Scene: hand-drawn network diagram radiating from a central garbo lamp, with small pencil vignettes at each node.'],
- ['n_world','Plate II.15','Golu abroad','Illustrative reconstruction','Scene: a shophouse front room in Singapore’s Little India with a golu display visible through the open doors at dusk.']
+[['n_hero','Plate II.1','A night of garba','Illustrative reconstruction',''],
+ ['n_durga','Plate II.2','Durga and Mahishasura','Symbolic illustration',''],
+ ['n_uma','Plate II.3','Uma comes home','Symbolic illustration',''],
+ ['n_rama','Plate II.4','Ramlila and Ravan Dahan','Traditional narrative illustration',''],
+ ['n_mysuru','Plate II.5','Mysuru Dasara','Illustrative reconstruction',''],
+ ['n_shami','Plate II.6','Shami and apta','Symbolic illustration',''],
+ ['n_bathu','Plate II.7','Bathukamma','Illustrative reconstruction',''],
+ ['n_ring','Plate II.8','The month from Mahalaya to Diwali','Diagram',''],
+ ['n_kumor','Plate II.9','From straw to eyes','Diagram',''],
+ ['n_golu','Plate II.10','A golu','Illustrative reconstruction',''],
+ ['n_map','Plate II.11','Regional atlas','Map (administrative boundaries)',''],
+ ['n_cab','Plate II.12','Symbol cabinet','Symbolic illustration',''],
+ ['n_food','Plate II.13','Bhog and the fast','Illustrative reconstruction',''],
+ ['n_graph','Plate II.14','Relationship map','Diagram',''],
+ ['n_world','Plate II.15','Golu abroad','Illustrative reconstruction','']
 ].forEach(([k,no,t,kind,scene])=>PM(k,{no,title:t,kind,scene,fo:'navaratri'}));
 PLATES.n_food=()=>{let m=merge();const leaf='M40 230 Q20 140 120 90 Q260 40 400 80 Q470 110 460 200 Q380 260 220 262 Q90 266 40 230Z';m.ink+=P(leaf)+P('M60 220 Q240 150 440 120');m.wash+=WS('p',leaf);
   m.ink+=P('M120 190 Q130 140 180 136 Q236 140 240 190 Q180 206 120 190Z');m.wash+=WS('h','M120 190 Q130 140 180 136 Q236 140 240 190 Q180 206 120 190Z');for(let i=0;i<16;i++)m.ink+=E(140+(i*23)%90,150+(i*11)%36,2.4,1.4);
@@ -2490,7 +2491,7 @@ $(`#${NP}-world`).innerHTML=sectionHead('II·XII','World','Navaratri beyond Indi
 
 /* ---------- XIII. PLATES ---------- */
 CUR_SEC='II·XIII · Plates';
-$(`#${NP}-plates`).innerHTML=sectionHead('II·XIII','Plates','Plate register','','Every illustration in this folio is a placeholder drawn in code, with its label and a generation prompt. None is historical evidence.')+platesHTML('navaratri');
+$(`#${NP}-plates`).innerHTML=sectionHead('II·XIII','Plates','Plate register','',(SHOW_PROMPTS?'Every illustration in this folio is a placeholder drawn in code, with its label and a generation prompt. None is historical evidence.':'Every illustration in this folio is a placeholder drawn in code, to be replaced by finished illustrations later. None is historical evidence.'))+platesHTML('navaratri');
 bindPlates($(`#${NP}-plates`));
 
 /* ================= FOLIO III · PONGAL · MAKAR SANKRANTI ================= */
@@ -2498,20 +2499,20 @@ CUR_FOLIO='sankranti';
 const SP2='san';
 const SECS_S=[['what','Overview'],['stories','Stories'],['days','Days'],['calendar','Calendar'],['ritual','Ritual'],['regions','Regions'],['history','History'],['symbols','Symbols'],['food','Food'],['connections','Connections'],['compare','Compare'],['world','World'],['plates','Plates']];
 folioSections('sankranti',SP2,SECS_S);
-[['s_hero','Plate III.1','Thai Pongal at dawn','Illustrative reconstruction','Scene: a Tamil village courtyard at sunrise, a new clay pot boiling over on a three-stone hearth with a turmeric plant tied at its neck, sugarcane stalks leaning on either side, a fresh rice-flour kolam in front, a bull with painted horns and a bell at left, a woman stirring and a child watching, kites rising against the low winter sun.'],
- ['s_surya','Plate III.2','The Sun turns north','Symbolic illustration','Scene: four-panel symbolic sequence — the winter sun rising far to the south on a flat horizon; the sun’s daily arcs stepping northward; a makara, the crocodile-like creature of the Makara sign, drawn as a temple-carving study; a figure offering water to the rising sun from a brass vessel.'],
- ['s_bhishma','Plate III.3','Bhishma’s wait','Traditional narrative illustration','Scene: four-panel sequence — a reclining warrior resting on a bed of arrows, seen at a distance; the sun low in the south; the sun turning north; a single clay lamp. No facial detail.'],
- ['s_ganga','Plate III.4','Where the Ganga meets the sea','Illustrative reconstruction','Scene: four-panel sequence — a river delta opening to the sea; pilgrims bathing at sunrise in winter haze; a simple riverside ashram; a leaf-boat lamp floating on the water.'],
- ['s_lohri','Plate III.5','Lohri night','Illustrative reconstruction','Scene: four-panel sequence — a winter bonfire in a Punjabi village lane; people circling it and offering sesame and jaggery; a wedding canopy hung with marigolds; children going door to door with songs.'],
- ['s_bihu','Plate III.6','Uruka and Magh Bihu','Illustrative reconstruction','Scene: four-panel sequence — a bhelaghar hut of fresh hay in a harvested paddy field; a tall conical meji of bamboo and hay; the meji burning at dawn; ash being spread over the field.'],
- ['s_light','Plate III.14','Makaravilakku','Symbolic illustration','Scene: four-panel symbolic sequence — a single bright star over the forested hills of the Western Ghats; eighteen stone steps to a hill shrine; pilgrims carrying ornament chests in procession; a lamp burning on a distant hilltop.'],
- ['s_sky','Plate III.7','The Sun’s clock','Diagram','Scene: hand-drawn circular diagram of the twelve sidereal signs with the Sun’s path, the winter-solstice point and the Makara point marked, and the gap between them shaded.'],
- ['s_jalli','Plate III.8','Jallikattu','Illustrative reconstruction','Scene: a bull with painted horns leaving the vaadivaasal gate into a dusty arena; one man running alongside reaching for the hump; spectators on a raised stand; no injury shown.'],
- ['s_map','Plate III.9','Regional atlas','Map (administrative boundaries)','Scene: hand-drawn map of India with official state boundaries, light washes for highlighted states, marginal sketches of a kite, a pot, a bonfire and a meji.'],
- ['s_cab','Plate III.10','Symbol cabinet','Symbolic illustration','Scene: museum specimen drawer of ten catalogue studies — clay pongal pot, sugarcane, paper kite, kolam, sesame-jaggery sweets, bonfire, bull with painted horns, meji, sun disc, makara carving.'],
- ['s_food','Plate III.11','A winter harvest plate','Illustrative reconstruction','Scene: botanical-plate style study of sweet pongal in a clay pot, sesame-and-jaggery balls, a bowl of ellu bella mix of sesame, fried gram, coconut and peanuts, a length of sugarcane, and a leaf of khichdi.'],
- ['s_graph','Plate III.12','Relationship map','Diagram','Scene: hand-drawn network diagram radiating from a central sun disc, with small pencil vignettes at each node.'],
- ['s_world','Plate III.13','Pongal in Little India','Illustrative reconstruction','Scene: Campbell Lane in Singapore’s Little India decorated for Pongal, stalls of sugarcane and clay pots, a small pen with cows for visitors.']
+[['s_hero','Plate III.1','Thai Pongal at dawn','Illustrative reconstruction',''],
+ ['s_surya','Plate III.2','The Sun turns north','Symbolic illustration',''],
+ ['s_bhishma','Plate III.3','Bhishma’s wait','Traditional narrative illustration',''],
+ ['s_ganga','Plate III.4','Where the Ganga meets the sea','Illustrative reconstruction',''],
+ ['s_lohri','Plate III.5','Lohri night','Illustrative reconstruction',''],
+ ['s_bihu','Plate III.6','Uruka and Magh Bihu','Illustrative reconstruction',''],
+ ['s_light','Plate III.14','Makaravilakku','Symbolic illustration',''],
+ ['s_sky','Plate III.7','The Sun’s clock','Diagram',''],
+ ['s_jalli','Plate III.8','Jallikattu','Illustrative reconstruction',''],
+ ['s_map','Plate III.9','Regional atlas','Map (administrative boundaries)',''],
+ ['s_cab','Plate III.10','Symbol cabinet','Symbolic illustration',''],
+ ['s_food','Plate III.11','A winter harvest plate','Illustrative reconstruction',''],
+ ['s_graph','Plate III.12','Relationship map','Diagram',''],
+ ['s_world','Plate III.13','Pongal in Little India','Illustrative reconstruction','']
 ].forEach(([k,no,t,kind,scene])=>PM(k,{no,title:t,kind,scene,fo:'sankranti'}));
 PLATES.s_food=()=>{let m=merge(pongalPot(150,200,1.3,true));m=merge(m,sugarcane(300,236,170,30));m.ink+=E(440,206,70,20)+P('M370 206 Q440 250 510 206');m.wash+=WS('t','M370 206 Q440 250 510 206Z');for(let i=0;i<30;i++){const x=390+(i*17)%100,y=196+(i*7)%14;m.ink+=i%3?E(x,y,2,1.2):C(x,y,3)}
   [[560,226],[586,222],[572,204]].forEach(([x,y])=>{m.ink+=C(x,y,11);m.wash+=`<circle class="wash-t" cx="${x}" cy="${y}" r="11"/>`;for(let k=0;k<4;k++)m.ink+=E(x-5+(k*4)%10,y-4+(k*5)%8,1.4,.8)});m.ink+=P('M20 246 L640 246');
@@ -2849,7 +2850,7 @@ $(`#${SP2}-world`).innerHTML=sectionHead('III·XII','World','Pongal beyond India
 
 /* ---------- XIII. PLATES ---------- */
 CUR_SEC='III·XIII · Plates';
-$(`#${SP2}-plates`).innerHTML=sectionHead('III·XIII','Plates','Plate register','','Every illustration in this folio is a placeholder drawn in code, with its label and a generation prompt. None is historical evidence.')+platesHTML('sankranti');
+$(`#${SP2}-plates`).innerHTML=sectionHead('III·XIII','Plates','Plate register','',(SHOW_PROMPTS?'Every illustration in this folio is a placeholder drawn in code, with its label and a generation prompt. None is historical evidence.':'Every illustration in this folio is a placeholder drawn in code, to be replaced by finished illustrations later. None is historical evidence.'))+platesHTML('sankranti');
 bindPlates($(`#${SP2}-plates`));
 CUR_FOLIO='deepavali';
 

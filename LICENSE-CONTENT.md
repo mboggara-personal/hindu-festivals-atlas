@@ -3,7 +3,7 @@
 **Code** (the page's HTML, CSS and JavaScript, including the code that draws the plates, maps and diagrams) is under the [MIT License](LICENSE).
 
 **Content** is under the **Creative Commons Attribution-NonCommercial 4.0 International** licence (CC BY-NC 4.0), © 2026 Mohan Boggara (Personal).
-This covers the text written for this atlas, the compiled festival data, the plate captions and generation prompts, and the code-drawn graphite plates.
+This covers the text written for this atlas, the compiled festival data, the plate captions and the code-drawn graphite plates.
 
 You may share and adapt the content for non-commercial purposes, as long as you give credit ("Hindu Festivals Atlas") with a link back, and indicate if you made changes.
 Full terms: <https://creativecommons.org/licenses/by-nc/4.0/legalcode>
