@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.1 — 24 November 2026
+
+- New home: https://hindu-festivals-atlas.ekaneka.org/ (Cloudflare Pages). The page's canonical address and share card point there; this GitHub Pages copy stays in parallel for now.
+- iPhone and iPad: plates are drawn without the pencil-grain filter, which those browsers can render blank.
+- Visits are counted anonymously with GoatCounter (no cookies, no personal data); a note in the footer says so.
+
 ## v1.1 — 15 November 2026
 
 Four new folios, making seven:

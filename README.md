@@ -2,7 +2,7 @@
 
 A pencil-drawn atlas of Hindu festivals in seven folios, with every factual claim cited to its source.
 
-**Live site:** https://mboggara-personal.github.io/hindu-festivals-atlas/
+**Live site:** https://hindu-festivals-atlas.ekaneka.org/
 
 ## What's inside
 
@@ -15,11 +15,11 @@ A pencil-drawn atlas of Hindu festivals in seven folios, with every factual clai
 - **Folio VII · the spring New Years:** Ugadi, Gudi Padwa, Navreh, Cheti Chand, Puthandu, Vishu, Bihu, Pana Sankranti and Pohela Boishakh, and the rules that turn one Sankranti into different dates.
 - **Sources & Evidence:** 1,344 cited claims from 201 sources, with Indian institutions and authors consulted first. Each claim carries a confidence level and a knowledge type, and open questions are listed rather than guessed.
 
-Dark theme by default, with a light toggle. Your theme choice is remembered in your own browser; nothing else is stored.
+Dark theme by default, with a light toggle. Your theme choice is remembered in your own browser; nothing else is stored. Visits are counted anonymously with GoatCounter: no cookies, no personal data.
 
 ## Files
 
-`docs/index.html` is the whole atlas: one self-contained page with its data baked in, served by GitHub Pages from the `docs/` folder. `docs/og.jpg` is the share-preview image.
+`docs/index.html` is the whole atlas: one self-contained page with its data baked in, served from Cloudflare Pages (and, in parallel, GitHub Pages from the `docs/` folder). `docs/og.jpg` is the share-preview image.
 
 ## Licence
 
